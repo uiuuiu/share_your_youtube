@@ -1,0 +1,29 @@
+.home
+  - if current_user
+    = current_user.username
+    = button_tag 'Share a movie'
+    = button_to 'Logout', signout_path, method: :delete
+  - else
+    = form_with(url: '/signin', id: 'user-form') do
+      = label_tag :username
+      = text_field_tag :username
+      = label_tag :password
+      = password_field_tag :password
+      = link_to :Login, '#', id: 'login-link'
+      = link_to :Register, '#', id: 'register-link'
+
+javascript:
+  $(document).ready(function() {
+    $('form#user-form').on('click', '#login-link', function(e){
+      e.preventDefault()
+      form = $(this).closest('form')
+      form.submit()
+    })
+
+    $('form#user-form').on('click', '#register-link', function(e){
+      e.preventDefault()
+      form = $(this).closest('form')
+      form.attr('action', '/signup')
+      form.submit()
+    })
+  })
